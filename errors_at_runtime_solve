@@ -1,0 +1,49 @@
+ERROR 1)
+When you run the application in network or docker-compose.yml file ,
+then it will throw you an error that access has denied to user 'admin'@'%' on myDB.
+
+solution:---->
+
+On your EC2 instance connected terminal, first check both containers are running properly or not. If yes,
+then on the terminal , type the following commands.
+
+1)  $ docker exec -it mysql_container_name bash
+
+
+
+
+Now you would have come inside container. Type here following command to connect to mysql database.
+
+2)  bash-4.2# mysql -u root -p
+
+You will be asked for password and enter password "admin" without double quotes 😄
+
+
+
+    
+Now you will come to mysql interface. type following commands.
+
+3)  mysql> show databases;
+
+It will show you all the databases available. But our database is "myDB" which is not present in list.
+So, we need to create it. Type following commands
+
+4)  mysql> create database myDB;
+
+
+
+Now we have to create table inside it called "messages". Type below command for it.
+
+5)  mysql>  use myDB;
+
+6)  mysql>  CREATE TABLE messages (id INT AUTO_INCREMENT PRIMARY KEY, message TEXT);
+
+
+
+
+Now grant the permissions on myDB database and it's table "messages" to admin user.
+
+7) mysql>  grant all on myDB.* to 'admin'@'%';
+
+Now refresh the application page on website. You are good to go.
+Thanks....😎
